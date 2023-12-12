@@ -51,6 +51,8 @@ StereoSlamNode::StereoSlamNode(ORB_SLAM3::System* pSLAM, const string &strSettin
     left_sub = std::make_shared<message_filters::Subscriber<ImageMsg> >(this, "camera/left");
     right_sub = std::make_shared<message_filters::Subscriber<ImageMsg> >(this, "camera/right");
 
+    pose_pub = this->create_publisher<geometry_msgs::msg::PoseStamped>("pose", 10);
+
     syncApproximate = std::make_shared<message_filters::Synchronizer<approximate_sync_policy> >(approximate_sync_policy(10), *left_sub, *right_sub);
     syncApproximate->registerCallback(&StereoSlamNode::GrabStereo, this);
 }
@@ -88,14 +90,36 @@ void StereoSlamNode::GrabStereo(const ImageMsg::SharedPtr msgLeft, const ImageMs
         return;
     }
 
+    Sophus::SE3f estimated_pose{};
+
     if (doRectify){
         cv::Mat imLeft, imRight;
         cv::remap(cv_ptrLeft->image,imLeft,M1l,M2l,cv::INTER_LINEAR);
         cv::remap(cv_ptrRight->image,imRight,M1r,M2r,cv::INTER_LINEAR);
-        m_SLAM->TrackStereo(imLeft, imRight, Utility::StampToSec(msgLeft->header.stamp));
+        estimated_pose = m_SLAM->TrackStereo(imLeft, imRight, Utility::StampToSec(msgLeft->header.stamp));
     }
     else
     {
-        m_SLAM->TrackStereo(cv_ptrLeft->image, cv_ptrRight->image, Utility::StampToSec(msgLeft->header.stamp));
+        estimated_pose = m_SLAM->TrackStereo(cv_ptrLeft->image, cv_ptrRight->image, Utility::StampToSec(msgLeft->header.stamp));
     }
+
+    // Publish pose data
+    Eigen::Matrix4f pose_eigen = estimated_pose.matrix().cast<float>();
+    Eigen::Matrix3f R_eigen = pose_eigen.block<3, 3>(0, 0);
+    Eigen::Vector3f t_eigen = pose_eigen.block<3, 1>(0, 3);
+
+    geometry_msgs::msg::PoseStamped pose_msg;
+    pose_msg.header.stamp = msgLeft->header.stamp;
+    pose_msg.header.frame_id = "/world";
+    pose_msg.pose.position.x = t_eigen(0);
+    pose_msg.pose.position.y = t_eigen(1);
+    pose_msg.pose.position.z = t_eigen(2);
+
+    Eigen::Quaterniond quat(R_eigen.cast<double>());
+    pose_msg.pose.orientation.x = quat.x();
+    pose_msg.pose.orientation.y = quat.y();
+    pose_msg.pose.orientation.z = quat.z();
+    pose_msg.pose.orientation.w = quat.w();
+
+    pose_pub->publish(pose_msg);
 }
