@@ -12,8 +12,11 @@ if(NOT CMAKE_CXX_STANDARD)
 endif()
 
 if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
-  add_compile_options(-Wall -Wextra -Wpedantic)
+#   add_compile_options(-Wall -Wextra -Wpedantic)
 endif()
+
+# dsiable all warnings
+add_compile_options(-w)
 
 option(USE_LITE "Lite mode without GUI" ON)
 if(USE_LITE)
@@ -96,4 +99,3 @@ install(TARGETS mono rgbd stereo stereo-inertial DESTINATION lib/${PROJECT_NAME}
 #  DESTINATION share/${PROJECT_NAME}/)
 
 ament_package()
-
