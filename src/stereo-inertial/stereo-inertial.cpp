@@ -6,7 +6,7 @@
 #include "rclcpp/rclcpp.hpp"
 #include "stereo-inertial-node.hpp"
 
-#include "System.h"
+#include "ORB_SLAM3/System.h"
 
 int main(int argc, char **argv)
 {

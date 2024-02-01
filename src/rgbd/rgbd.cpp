@@ -6,7 +6,7 @@
 #include "rclcpp/rclcpp.hpp"
 #include "rgbd-slam-node.hpp"
 
-#include "System.h"
+#include "ORB_SLAM3/System.h"
 
 int main(int argc, char **argv)
 {
