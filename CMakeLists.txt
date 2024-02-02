@@ -26,10 +26,13 @@ find_package(Sophus REQUIRED)
 find_package(Eigen3 REQUIRED)
 find_package(ORB_SLAM3 REQUIRED)
 
+find_package(Sophus REQUIRED)
+
+
 include_directories(
   include
-  ${ORB_SLAM3_ROOT_DIR}/include
-  ${ORB_SLAM3_ROOT_DIR}/include/CameraModels
+#   ${ORB_SLAM3_ROOT_DIR}/include
+#   ${ORB_SLAM3_ROOT_DIR}/include/CameraModels
   ${EIGEN3_INCLUDE_DIR}
 )
 
@@ -42,7 +45,7 @@ add_executable(mono
   src/monocular/monocular-slam-node.cpp
 )
 
-ament_target_dependencies(mono rclcpp sensor_msgs cv_bridge ORB_SLAM3 OpenCV Eigen3)
+ament_target_dependencies(mono rclcpp sensor_msgs cv_bridge ORB_SLAM3 OpenCV Eigen3 Sophus)
 
 install(TARGETS mono DESTINATION lib/${PROJECT_NAME})
 
