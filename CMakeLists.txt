@@ -47,6 +47,10 @@ add_executable(mono
 
 ament_target_dependencies(mono rclcpp sensor_msgs cv_bridge ORB_SLAM3 OpenCV Eigen3 Sophus)
 
+target_link_libraries(mono
+    ORB_SLAM3::ORB_SLAM3
+)
+
 install(TARGETS mono DESTINATION lib/${PROJECT_NAME})
 
 ament_package()
