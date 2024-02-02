@@ -25,6 +25,7 @@ find_package(message_filters REQUIRED)
 find_package(Sophus REQUIRED)
 find_package(Eigen3 REQUIRED)
 find_package(ORB_SLAM3 REQUIRED)
+find_package(libORB_SLAM3 REQUIRED)
 
 include_directories(
   include
