@@ -46,15 +46,47 @@ add_executable(mono
   src/monocular/mono.cpp
   src/monocular/monocular-slam-node.cpp
 )
+add_executable(rgbd
+  src/rgbd/rgbd.cpp
+  src/rgbd/rgbd-slam-node.cpp
+)
+add_executable(stereo
+  src/stereo/stereo.cpp
+  src/stereo/stereo-slam-node.cpp
+)
+add_executable(stereo-inertial
+  src/stereo-inertial/stereo-inertial.cpp
+  src/stereo-inertial/stereo-inertial-node.cpp
+)
 
-ament_target_dependencies(mono rclcpp sensor_msgs cv_bridge ORB_SLAM3 OpenCV Eigen3 Sophus DBoW2 g2o)
+target_link_libraries(mono
+    ORB_SLAM3::ORB_SLAM3
+    DBoW2::DBoW2
+    g2o::g2o
+)
+target_link_libraries(rgbd
+    ORB_SLAM3::ORB_SLAM3
+    DBoW2::DBoW2
+    g2o::g2o
+)
+target_link_libraries(stereo
+    ORB_SLAM3::ORB_SLAM3
+    DBoW2::DBoW2
+    g2o::g2o
+)
+target_link_libraries(stereo-inertial
+    ORB_SLAM3::ORB_SLAM3
+    DBoW2::DBoW2
+    g2o::g2o
+)
 
-# target_link_libraries(mono
-#     ORB_SLAM3::ORB_SLAM3
-#     DBoW2::DBoW2
-#     g2o::g2o
-# )
+ament_target_dependencies(mono rclcpp sensor_msgs cv_bridge ORB_SLAM3 OpenCV Eigen3)
+ament_target_dependencies(rgbd rclcpp sensor_msgs cv_bridge message_filters ORB_SLAM3 OpenCV)
+ament_target_dependencies(stereo rclcpp sensor_msgs cv_bridge message_filters ORB_SLAM3 OpenCV Eigen3)
+ament_target_dependencies(stereo-inertial rclcpp sensor_msgs cv_bridge ORB_SLAM3 OpenCV)
 
-install(TARGETS mono DESTINATION lib/${PROJECT_NAME})
+
+install(TARGETS mono rgbd stereo stereo-inertial DESTINATION lib/${PROJECT_NAME})
+
 
 ament_package()
