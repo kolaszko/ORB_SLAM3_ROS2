@@ -28,7 +28,8 @@ find_package(ORB_SLAM3 REQUIRED)
 
 include_directories(
   include
-  ${ORB_SLAM3_ROOT_DIR}
+  ${ORB_SLAM3_ROOT_DIR}/src
+  ${ORB_SLAM3_ROOT_DIR}/src/CameraModels
   ${ORB_SLAM3_ROOT_DIR}/include
   ${ORB_SLAM3_ROOT_DIR}/include/CameraModels
   ${EIGEN3_INCLUDE_DIR}
