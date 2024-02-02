@@ -47,13 +47,13 @@ add_executable(mono
   src/monocular/monocular-slam-node.cpp
 )
 
-ament_target_dependencies(mono rclcpp sensor_msgs cv_bridge ORB_SLAM3 OpenCV Eigen3 Sophus)
+ament_target_dependencies(mono rclcpp sensor_msgs cv_bridge ORB_SLAM3 OpenCV Eigen3 Sophus DBoW2 g2o)
 
-target_link_libraries(mono
-    ORB_SLAM3::ORB_SLAM3
-    DBoW2::DBoW2
-    g2o::g2o
-)
+# target_link_libraries(mono
+#     ORB_SLAM3::ORB_SLAM3
+#     DBoW2::DBoW2
+#     g2o::g2o
+# )
 
 install(TARGETS mono DESTINATION lib/${PROJECT_NAME})
 
