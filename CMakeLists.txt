@@ -26,6 +26,8 @@ find_package(Sophus REQUIRED)
 find_package(Eigen3 REQUIRED)
 find_package(ORB_SLAM3 REQUIRED)
 
+find_package(DBoW2 REQUIRED)
+find_package(g2o REQUIRED)
 find_package(Sophus REQUIRED)
 
 
@@ -49,6 +51,8 @@ ament_target_dependencies(mono rclcpp sensor_msgs cv_bridge ORB_SLAM3 OpenCV Eig
 
 target_link_libraries(mono
     ORB_SLAM3::ORB_SLAM3
+    DBoW2::DBoW2
+    g2o::g2o
 )
 
 install(TARGETS mono DESTINATION lib/${PROJECT_NAME})
