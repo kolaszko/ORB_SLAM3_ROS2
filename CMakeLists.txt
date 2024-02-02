@@ -37,12 +37,16 @@ link_directories(
   include
 )
 
+target_link_libraries(libORB_SLAM3
+  ${ORB_SLAM3_ROOT_DIR}/lib/libORB_SLAM3.so
+)
+
 add_executable(mono
   src/monocular/mono.cpp
   src/monocular/monocular-slam-node.cpp
 )
 
-ament_target_dependencies(mono rclcpp sensor_msgs cv_bridge ORB_SLAM3 OpenCV Eigen3)
+ament_target_dependencies(mono rclcpp sensor_msgs cv_bridge ORB_SLAM3 libORB_SLAM3 OpenCV Eigen3)
 
 install(TARGETS mono DESTINATION lib/${PROJECT_NAME})
 
