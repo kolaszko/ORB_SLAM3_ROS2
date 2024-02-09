@@ -30,11 +30,8 @@ Stereo.b: 0.0898885
 Camera.width: 1032
 Camera.height: 772
 
-# Camera.newWidth: 800
-# Camera.newHeight: 598
-
-# Camera.newWidth: 722
-# Camera.newHeight: 505
+Camera.newWidth: 774
+Camera.newHeight: 579
 
 # Camera frames per second 
 Camera.fps: 14
@@ -42,7 +39,7 @@ Camera.fps: 14
 # Color order of the images (0: BGR, 1: RGB. It is ignored if images are grayscale)
 Camera.RGB: 1
 
-Stereo.ThDepth: 100.0
+Stereo.ThDepth: 80.0
 # Stereo.T_c1_c2: !!opencv-matrix
 #   rows: 4
 #   cols: 4
@@ -57,7 +54,7 @@ Stereo.ThDepth: 100.0
 #--------------------------------------------------------------------------------------------
 
 # ORB Extractor: Number of features per image
-ORBextractor.nFeatures: 800
+ORBextractor.nFeatures: 600
 
 # ORB Extractor: Scale factor between levels in the scale pyramid 	
 ORBextractor.scaleFactor: 1.2
