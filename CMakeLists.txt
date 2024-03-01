@@ -29,6 +29,7 @@ find_package(ORB_SLAM3 REQUIRED)
 find_package(DBoW2 REQUIRED)
 find_package(g2o REQUIRED)
 find_package(Sophus REQUIRED)
+find_package(tf2_ros REQUIRED)
 
 
 include_directories(
@@ -80,13 +81,13 @@ target_link_libraries(stereo-inertial
     g2o::g2o
 )
 
-ament_target_dependencies(mono rclcpp sensor_msgs cv_bridge ORB_SLAM3 OpenCV Eigen3)
-ament_target_dependencies(rgbd rclcpp sensor_msgs cv_bridge message_filters ORB_SLAM3 OpenCV)
-ament_target_dependencies(stereo rclcpp sensor_msgs cv_bridge message_filters ORB_SLAM3 OpenCV Eigen3)
-ament_target_dependencies(stereo-inertial rclcpp sensor_msgs cv_bridge ORB_SLAM3 OpenCV)
+ament_target_dependencies(mono rclcpp sensor_msgs cv_bridge ORB_SLAM3 tf2_ros OpenCV Eigen3)
+ament_target_dependencies(rgbd rclcpp sensor_msgs cv_bridge message_filters ORB_SLAM3 tf2_ros OpenCV)
+ament_target_dependencies(stereo rclcpp sensor_msgs cv_bridge message_filters ORB_SLAM3 tf2_ros OpenCV Eigen3)
+ament_target_dependencies(stereo-inertial rclcpp sensor_msgs cv_bridge ORB_SLAM3 tf2_ros OpenCV)
 
 
 install(TARGETS mono rgbd stereo stereo-inertial DESTINATION lib/${PROJECT_NAME})
-
+install(DIRECTORY launch config vocabulary DESTINATION share/${PROJECT_NAME}/)
 
 ament_package()
