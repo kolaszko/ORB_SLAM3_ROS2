@@ -2,8 +2,12 @@
 #define __STEREO_SLAM_NODE_HPP__
 
 #include "rclcpp/rclcpp.hpp"
+#include "tf2_ros/transform_broadcaster.h"
+#include "tf2/LinearMath/Quaternion.h"
+
 #include "sensor_msgs/msg/image.hpp"
 #include "geometry_msgs/msg/pose_stamped.hpp"
+#include "geometry_msgs/msg/transform_stamped.hpp"
 
 #include "message_filters/subscriber.h"
 #include "message_filters/synchronizer.h"
@@ -28,6 +32,8 @@ public:
     ~StereoSlamNode();
 
 private:
+    void publishTfFromPose(const geometry_msgs::msg::PoseStamped& msg);
+
     using ImageMsg = sensor_msgs::msg::Image;
     typedef message_filters::sync_policies::ApproximateTime<sensor_msgs::msg::Image, sensor_msgs::msg::Image> approximate_sync_policy;
 
@@ -45,6 +51,8 @@ private:
     std::shared_ptr<message_filters::Subscriber<sensor_msgs::msg::Image> > right_sub;
 
     rclcpp::Publisher<geometry_msgs::msg::PoseStamped>::SharedPtr pose_pub;
+    std::unique_ptr<tf2_ros::TransformBroadcaster> tf_broadcaster;
+
 
     std::shared_ptr<message_filters::Synchronizer<approximate_sync_policy> > syncApproximate;
 };
