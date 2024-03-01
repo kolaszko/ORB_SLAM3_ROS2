@@ -24,6 +24,7 @@ find_package(Sophus REQUIRED)
 find_package(Pangolin REQUIRED)
 find_package(ORB_SLAM3 REQUIRED)
 find_package(Eigen3 REQUIRED)
+find_package(tf2_ros REQUIRED)
 
 include_directories(
   include
@@ -53,7 +54,7 @@ add_executable(stereo
   src/stereo/stereo.cpp
   src/stereo/stereo-slam-node.cpp
 )
-ament_target_dependencies(stereo rclcpp sensor_msgs cv_bridge message_filters ORB_SLAM3 Pangolin OpenCV Eigen3)
+ament_target_dependencies(stereo rclcpp sensor_msgs cv_bridge message_filters tf2_ros ORB_SLAM3 Pangolin OpenCV Eigen3)
 
 add_executable(stereo-inertial
   src/stereo-inertial/stereo-inertial.cpp
@@ -64,8 +65,8 @@ ament_target_dependencies(stereo-inertial rclcpp sensor_msgs cv_bridge ORB_SLAM3
 install(TARGETS mono rgbd stereo stereo-inertial DESTINATION lib/${PROJECT_NAME})
 
 # Install launch files.
-#install(DIRECTORY launch config vocabulary
-#  DESTINATION share/${PROJECT_NAME}/)
+install(DIRECTORY launch config vocabulary
+ DESTINATION share/${PROJECT_NAME}/)
 
 ament_package()
 
