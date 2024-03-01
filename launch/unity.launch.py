@@ -7,7 +7,7 @@ from launch_ros.substitutions import FindPackageShare
 
 def generate_launch_description():
     vocab = LaunchConfiguration('vocabulary', default=PathJoinSubstitution([FindPackageShare('orbslam3'), 'vocabulary', 'ORBvoc.txt']))
-    config = LaunchConfiguration('config', default=PathJoinSubstitution([FindPackageShare('orbslam3'), 'config', 'stereo', 'madmax_C.yaml']))
+    config = LaunchConfiguration('config', default=PathJoinSubstitution([FindPackageShare('orbslam3'), 'config', 'stereo', 'unity.yaml']))
     rectify = LaunchConfiguration('rectify', default='false')
 
     entities = [
@@ -33,6 +33,10 @@ def generate_launch_description():
             name='orbslam3',
             arguments=[vocab, config, rectify],
             output='screen',
+            remappings=[
+            ('/camera/left', '/lunarsim/camera_left/raw'),
+            ('/camera/right', '/lunarsim/camera_right/raw'),
+        ]
         )
     ]
 
